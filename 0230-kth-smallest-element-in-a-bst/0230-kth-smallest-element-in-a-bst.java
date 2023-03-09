@@ -15,17 +15,33 @@
  */
 class Solution {
     public int kthSmallest(TreeNode root, int k) {
-     List<Integer> ls = new ArrayList<>(); 
-     solve(root, ls);
-	return ls.get(k-1);
+    int k1[] = {k};
+     return solve(root, k1);
+	
     }
-    private void solve(TreeNode root, List<Integer> ls){
+    private int solve(TreeNode root, int k[]){
         if(root == null)
-            return;
+            return -1;
         if(root.left == null && root.right == null)
-           { ls.add(root.val);return;}
-        solve(root.left, ls);
-        ls.add(root.val);
-        solve(root.right, ls);
+        {
+            k[0]--;
+            if(k[0] == 0)
+                return root.val;
+            else return -1;
+        }
+        int left = solve(root.left, k);
+        
+        if(left != -1)
+            return left;
+        
+        k[0]--;
+        if(k[0] == 0)
+            return root.val;
+        
+        int right = solve(root.right, k);
+        if(right != -1)
+            return right;
+        
+        return -1;
     }
 }
